@@ -25,8 +25,18 @@ prepare_standby_seed() {
 
   # Create dir w/ guid from namespace name for parallel CI execution
   seed_dir="tmp-$CONJUR_NAMESPACE_NAME"
-  mkdir -p $seed_dir
-
+  mkdir -p /$seed_dir
+  
+  echo "dir is:"
+  pwd
+  
+  echo "seed creation output is:"
+  $cli exec $master_pod_name evoke seed standby conjur-standby
+   
+  echo "creating file output is:"
+  echo "1" > "./$seed_dir/standby-seed.tar"
+  
+  echo "running full seed command:"
   $cli exec $master_pod_name evoke seed standby conjur-standby > "./$seed_dir/standby-seed.tar"
 }
 
