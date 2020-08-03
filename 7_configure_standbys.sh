@@ -27,11 +27,11 @@ prepare_standby_seed() {
   seed_dir="tmp-$CONJUR_NAMESPACE_NAME"
   mkdir -p /$seed_dir
   
-  echo "$cli is:"
-  echo $cli
-  
-  echo "trying with sudo"
-  sudo $cli exec $master_pod_name evoke seed standby conjur-standby
+  echo "running ruby from bash:"
+  /usr/bin/env ruby <<-EORUBY
+    puts 'This is ruby!' 
+    system 'su', '-c', %Q(echo "hi")
+  EORUBY
   
   echo "running full seed command:"
   $cli exec $master_pod_name evoke seed standby conjur-standby > "./$seed_dir/standby-seed.tar"
