@@ -28,10 +28,10 @@ prepare_standby_seed() {
   mkdir -p /$seed_dir
   
   echo "running ruby from bash:"
-  /usr/bin/env ruby <<-EORUBY
+  ruby <<EOF
     puts 'This is ruby!' 
     system 'su', '-c', %Q(echo "hi")
-  EORUBY
+  EOF
   
   echo "running full seed command:"
   $cli exec $master_pod_name evoke seed standby conjur-standby > "./$seed_dir/standby-seed.tar"
